@@ -1,5 +1,5 @@
 from random import * 
-from Carte import * #importer Carte.py
+from class_Cartes import *
 class JeuDeCartes:
     def __init__(self):
         self.cartes = []
@@ -11,7 +11,7 @@ class JeuDeCartes:
         self.cartes = []
         for couleur in couleurs:
             for signe in signes:
-                self.cartes.append(Carte(signe, couleur, valeurs, f"/images/cartes/{signe}_{couleur}.png"))
+                self.cartes.append(Carte(signe, couleur, valeurs, f"images/cartes/{signe}_{couleur}.png"))
 
 #Getters
 
