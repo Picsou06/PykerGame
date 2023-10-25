@@ -11,12 +11,15 @@ class JeuDeCartes:
         self.cartes = []
         for couleur in couleurs:
             for signe in signes:
-                self.cartes.append(Carte(signe, couleur, valeurs , f"/Images/cartes/{signe}_{couleurs}.jpg"))
+                self.cartes.append(Carte(signe, couleur, valeurs, f"/images/cartes/{signe}_{couleur}.png"))
 
 #Getters
 
     def get_cartes(self):
         return self.cartes
+
+    def pioche_carte(self):
+        return self.cartes.pop()
 
 #Setters
 

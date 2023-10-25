@@ -14,7 +14,7 @@ class Carte:
     def get_valeur(self):
         return self.valeur
     def get_image(self):
-        return self.image
+        return str(self.image)
 
 #Setters
 

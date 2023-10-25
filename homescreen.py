@@ -3,9 +3,11 @@ from pygame import *
 import game
 
 def homescreen(screen):
+    
     screen_width, screen_height = screen.get_size()
     background_image = pygame.transform.scale(pygame.image.load("images/background.gif"), (screen_width,screen_height))
     gif_image = pygame.image.load("images/play.gif")
+    
 
     running = True
     while running:
@@ -13,7 +15,6 @@ def homescreen(screen):
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == KEYDOWN and event.key == K_SPACE:
-                print("space")
                 game.game(screen)
 
         gif_x = (screen_width - gif_image.get_width()) / 2
