@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-from tkinter import * #Importer tkinter
-from JeuDeCartes import * #Importer JeuDeCartes.py (et ses fonctions)
-from homescreen import *
-
-Jeu=JeuDeCartes() #Definir la variable Jeu
-Jeu.creer_jeu_52_cartes() #Creation du jeu de cartes avec la fonction 
-print(Jeu.afficher_jeu()) #Affichage du paquet de cartes
-homescreen()
-
-=======
 from pygame import *
 import pygame
 import homescreen
@@ -28,4 +17,3 @@ while continuer:
         if event.type == QUIT:
             continuer = 0
     pygame.display.flip()
->>>>>>> 89d54f8 (Evan: Début d'idée, base screen et placement carte)
