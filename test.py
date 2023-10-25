@@ -1,47 +1,44 @@
+import pygame
+import os
 
-# Import module  
-from tkinter import *
+# Initialisation de Pygame
+pygame.init()
 
-  
-# Create object  
-root = Tk() 
-root.resizable(width=False, height=False)
-  
-# Adjust size  
-root.geometry("400x400") 
-  
-# Add image file 
-bg = PhotoImage(file = "Images//background.gif") 
-  
-# Create Canvas 
-canvas1 = Canvas( root, width = 400, 
-                 height = 400) 
-  
-canvas1.pack(fill = "both", expand = True) 
-  
-# Display image 
-canvas1.create_image( 0, 0, image = bg,  
-                     anchor = "nw") 
-  
-# Add Text 
-canvas1.create_text( 200, 250, text = "Welcome") 
-  
-# Create Buttons 
-button1 = Button( root, text = "Exit") 
-button3 = Button( root, text = "Start") 
-button2 = Button( root, text = "Reset") 
-  
-# Display Buttons 
-button1_canvas = canvas1.create_window( 100, 10,  
-                                       anchor = "nw", 
-                                       window = button1) 
-  
-button2_canvas = canvas1.create_window( 100, 40, 
-                                       anchor = "nw", 
-                                       window = button2) 
-  
-button3_canvas = canvas1.create_window( 100, 70, anchor = "nw", 
-                                       window = button3) 
-  
-# Execute tkinter 
-root.mainloop() 
+# Définir la taille de la fenêtre
+screen = pygame.display.set_mode((400, 400))
+screen_width, screen_height = screen.get_size()
+
+# Charger l'image
+background_image = pygame.transform.scale(pygame.image.load("images/table.png"), (screen_width,screen_height))
+enemycard = pygame.transform.scale(pygame.image.load("images/cartes/dos_carte.png"), (150,250))
+
+# Définir l'angle de rotation
+angle = 160
+
+# Tourner l'image
+rotated_image = pygame.transform.rotate(enemycard, angle)
+
+# Récupérer le rectangle qui entoure l'image tournée
+rect = rotated_image.get_rect()
+
+# Mettre à jour la position pour centrer l'image
+rect.center = screen.get_rect().center
+
+# Boucle principale
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Effacer l'écran
+    screen.fill((255, 255, 255))
+
+    # Afficher l'image tournée
+    screen.blit(rotated_image, rect.topleft)
+
+    # Mettre à jour l'affichage
+    pygame.display.flip()
+
+# Quitter Pygame
+pygame.quit()
