@@ -1,5 +1,6 @@
+from random import *
 class EnemyHand:
-    def __init__(self):
+    def __init__(self, monnaie = randint(100,500)):
         self.cartes = []
 
 #Getters
