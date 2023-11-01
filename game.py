@@ -89,10 +89,10 @@ def game(screen):
 
         screen.blit(texte_player,(25,500))
         screen.blit(player_texte,(50,525))
-        screen.blit(texte_adversaire1,(25,300))
-        screen.blit(adversaire1_texte,(50,325))
-        screen.blit(texte_adversaire2,(550,300))
-        screen.blit(adversaire2_texte,(700,325))
+        screen.blit(texte_adversaire1,(75,25))
+        screen.blit(adversaire1_texte,(75,50))
+        screen.blit(texte_adversaire2,(550,25))
+        screen.blit(adversaire2_texte,(700,50))
 
         played_card(player_hand, screen, pl[0], 0)
         played_card(player_hand, screen, pl[1], 1)
@@ -101,6 +101,13 @@ def game(screen):
         adversaire_card(adversaire2_hand, en2[0])
         adversaire_card(adversaire2_hand, en2[1])
         board_card(screen, bo, phase)
+
+        #Replacement texte
+
+        screen.blit(texte_adversaire1,(75,25))
+        screen.blit(adversaire1_texte,(75,50))
+        screen.blit(texte_adversaire2,(550,25))
+        screen.blit(adversaire2_texte,(700,50))
 
         pygame.display.flip()
     pygame.quit()
