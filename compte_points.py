@@ -178,8 +178,8 @@ def quinte_flush_royale(l, L):
                         pts = 1521
     return pts
 
-def nbr_pts(p,bo):
-    L = p + bo
+def nbr_pts(p,board):
+    L = p + board
     l = []
     
     N = len(L)
