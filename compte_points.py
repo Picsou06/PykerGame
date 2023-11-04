@@ -5,6 +5,7 @@ import class_JeuDeCartes
 import class_PlayerHand
 
 def paires(l):
+    pts = 0
     tmp = []
     tmp = tmp + l 
     i = len(l) -1
