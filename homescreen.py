@@ -1,6 +1,7 @@
 import pygame
 from pygame import *
 import game
+import lose
 
 def homescreen(screen):
     

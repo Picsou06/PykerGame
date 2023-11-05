@@ -10,6 +10,9 @@ class PlayerHand:
     
     def get_monnaie(self):
         return self.monnaie
+    
+    def get_ingame(self):
+        return self.ingame
 
 #Setters
 
@@ -17,7 +20,11 @@ class PlayerHand:
         self.cartes.append(card)
     
     def set_cartes(self,cards):
+        self.cartes= []
         self.cartes = cards
     
     def set_monnaie(self,new_moula):
         self.monnaie = new_moula
+
+    def set_ingame(self,var):
+        self.ingame=var

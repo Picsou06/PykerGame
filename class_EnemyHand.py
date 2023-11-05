@@ -1,8 +1,8 @@
-from random import*
 class EnemyHand:
     def __init__(self, monnaie):
         self.cartes = []
         self.monnaie = monnaie
+        self.ingame = True
 
 #Getters
 
@@ -11,6 +11,9 @@ class EnemyHand:
     
     def get_monnaie(self):
         return self.monnaie
+
+    def get_ingame(self):
+        return self.ingame
 
 #Setters
 
@@ -22,3 +25,6 @@ class EnemyHand:
     
     def set_monnaie(self,new_moula):
         self.monnaie = new_moula
+
+    def set_ingame(self,var):
+        self.ingame=var

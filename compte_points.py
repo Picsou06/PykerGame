@@ -63,18 +63,16 @@ def suite(l):
 
 def couleur(L):
     pts = 0
-    i = len(L)-1 
-    
-    while i > 3:
-        if L[i].get_couleur() == L[i-1].get_couleur():
-            if L[i-1].get_couleur() == L[i-2].get_couleur():
-                if L[i-2].get_couleur() == L[i-3].get_couleur(): 
-                    if L[i-3].get_couleur() == L[i-4].get_couleur():
-                        pts = 142 + L[i].get_valeur() + L[i-1].get_valeur() + L[i-2].get_valeur()+ L[i-3].get_valeur() +L[i-4].get_valeur()
-                        i = 0
-        else : 
-            i = i-1
+    i = len(L) - 1
+
+    while i >= 4:
+        if L[i].get_couleur() == L[i-1].get_couleur() == L[i-2].get_couleur() == L[i-3].get_couleur() == L[i-4].get_couleur():
+            pts = 142 + L[i].get_valeur() + L[i-1].get_valeur() + L[i-2].get_valeur() + L[i-3].get_valeur() + L[i-4].get_valeur()
+            i = 0
+        else:
+            i = i - 1
     return pts
+
      
 def full(l):
     pts = 0
@@ -153,11 +151,11 @@ def quinte_flush(l, L):
 
 def quinte_flush_royale(l, L):
     pts = 0
-    i = len(l)-1
+    i = len(l) - 1
     r = False
-    tmp=[]
-    while i > 4 and r != True:
-        if l[i] - 1 == l[i-1]:
+    tmp = []
+    while i >= 4 and not r:
+        if l[i] - 1 == l[i-1]:  
             if l[i-1] - 1 == l[i-2]:
                 if l[i-2] - 1 == l[i-3]:
                     if l[i-3] - 1 == l[i-4]:
@@ -167,16 +165,19 @@ def quinte_flush_royale(l, L):
                         tmp.append(L[i-2])
                         tmp.append(L[i-1])
                         tmp.append(L[i])
-        else : 
-            i = i-1
-    j = len(tmp) - 1
-    if L[j].get_couleur() == L[j-1].get_couleur(): 
-        if L[j-1].get_couleur() == L[j-2].get_couleur():
-            if L[j-2].get_couleur()== L[j-3].get_couleur():
-                if L[j-3].get_couleur()== L[j-4].get_couleur():
-                    if l[i] == 14:
-                        pts = 1521
+                    else:
+                        i = i-1
+                else:
+                    i= i-1
+            else:
+                i = i-1
+        else:
+            i = i - 1
+    
+    if r and L[i].get_couleur() == L[i-1].get_couleur() == L[i-2].get_couleur() == L[i-3].get_couleur() == L[i-4].get_couleur() and l[i] == 14:
+        pts = 1521
     return pts
+
 
 def nbr_pts(p,board):
     L = p + board
