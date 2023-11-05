@@ -14,8 +14,7 @@ def homescreen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == KEYDOWN and event.key == K_SPACE:
-                print("PASSAGE JEUX")
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 game.game(screen)
 
         gif_x = (screen_width - gif_image.get_width()) / 2

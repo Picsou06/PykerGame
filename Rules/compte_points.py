@@ -1,2 +1,0 @@
-from ../JeuDeCartes.py import *
-

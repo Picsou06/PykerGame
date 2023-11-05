@@ -115,7 +115,7 @@ def carre(l):
             i = 0
         else:
             i = i-1
-    return pts  
+    return pts
 
 def quinte_flush(l, L):
     pts = 0

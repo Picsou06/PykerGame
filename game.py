@@ -9,6 +9,7 @@ from compte_points import *
 from random import *
 
 def board_card(screen, cartes, phase):
+    print("Debug, affichage cartes table")
     for i in range(0,phase):
         card=pygame.transform.scale(pygame.image.load(cartes[i].get_image()), (130,200))
         if i==0:
@@ -21,6 +22,7 @@ def board_card(screen, cartes, phase):
             screen.blit(card, (550, 30))
 
 def played_card(player, screen, cartes, n):
+    print("Debug, affichage cartes tournée")
     player.add_cartes(cartes)
     card=pygame.transform.scale(pygame.image.load(cartes.get_image()), (130,200))
     if n==0:
@@ -32,6 +34,7 @@ def played_card(player, screen, cartes, n):
 
 
 def choix_adversaire(adversaire,phase,score,mise):
+    print("Debug, choix adversaire")
     if phase==0:
         return "suivre"
     if 29 <= score <= 41:
@@ -51,8 +54,8 @@ def choix_adversaire(adversaire,phase,score,mise):
 
 
 def game(screen):
+    print("Debug, Game")
     width,height = screen.get_width(),screen.get_height()
-
     monnaie = randint(200, 1000)*5
     adversaire1_hand=class_EnemyHand.EnemyHand(monnaie)
     adversaire2_hand=class_EnemyHand.EnemyHand(monnaie)
@@ -60,8 +63,7 @@ def game(screen):
     pioche=class_JeuDeCartes.JeuDeCartes()
     pioche.creer_jeu_52_cartes()
     pioche.melange()
-    screen_width, screen_height = screen.get_size()
-    background_image = pygame.transform.scale(pygame.image.load("images/table.png"), (screen_width,screen_height))
+    background_image = pygame.transform.scale(pygame.image.load("images/table.png"), (width,height))
     enemycard = pygame.transform.scale(pygame.image.load("images/cartes/test.png"), (200,300))
     pl_card=[pioche.pioche_carte(),pioche.pioche_carte()]
     player_hand.set_cartes(pl_card)
@@ -71,56 +73,56 @@ def game(screen):
     adversaire2_hand.set_cartes(enemy2_card)
     board=[pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte()]
 
-
     running = True
     phase=0
     action_joueur=None
-    tour_en_cour=True
     player_en_liste=True
     mise=50
     bet=50
+    lbet=50
+    has_select=False
+    print("Debug, Fin Variable définitives")
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == KEYDOWN and event.key == K_SPACE:
-                if phase<4:
-                    phase=phase+1
-                    tour_en_cour=True
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                #if the mouse is clicked on the
-                # button the game is terminated
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if width/2+200 <= mouse[0] <= width/2+340 and height-195 <= mouse[1] <= height-195+40:
-                    if tour_en_cour:
+                    if not has_select:
                         action_joueur="Check"
-                        phase=phase+1
-                        tour_en_cour=False
+                        has_select=True
+                        print("Debug, Check")
+
                 elif width/2+200 <= mouse[0] <= width/2+340 and height-145 <= mouse[1] <= height-145+40:
-                    if tour_en_cour:
+                    if not has_select:
                         action_joueur="Coucher"
-                        phase=phase+1
-                        tour_en_cour=False
+                        has_select=True
+                        print("Debug, Coucher")
+
                 elif width/2+200 <= mouse[0] <= width/2+340 and height-95 <= mouse[1] <= height-95+40:
-                    if tour_en_cour:
+                    if not has_select:
                         action_joueur="Suivre"
-                        phase=phase+1
-                        tour_en_cour=False
+                        has_select=True
+                        print("Debug, Suivre")
+
                 elif width/2+45 <= mouse[0] <= width/2+340 and height-45 <= mouse[1] <= height-45+40:
-                    if tour_en_cour:
+                    if not has_select:
                         action_joueur="All-In"
-                        phase=phase+1
-                        tour_en_cour=False
+                        has_select=True
+                        print("Debug, All-in")
+
                 elif 55 <= mouse[0] <= 55+340 and height-120 <= mouse[1] <= height-120+40:
-                    if tour_en_cour:
+                    if not has_select:
                         action_joueur="Bet"
-                        phase=phase+1
-                        tour_en_cour=False
+                        has_select=True
+                        print("Debug, bet")
+
                 elif 147 <= mouse[0] <= 147+46 and height-176 <= mouse[1] <= height-176+46:
                     if bet<player_hand.get_monnaie():
                         bet=bet+5
+                        print("Debug, bet+5")
                 elif 55 <= mouse[0] <= 55+46 and height-176 <= mouse[1] <= height-176+46:
-                    if bet>mise:
+                    if bet>lbet:
                         bet=bet-5
+                        print("Debug, bet-5")
 
         mouse = pygame.mouse.get_pos()
         screen.blit(background_image, (0, 0))
@@ -137,21 +139,21 @@ def game(screen):
 
         #Pour le Joueur
 
-        texte_player = TextPolice.render ("$"+str(player_hand.get_monnaie()), 1 ,(150,0,0)) #Le (150,0,0) est la couleur du texte en RGB, pareil pour les suivants
+        texte_player = TextPolice.render("$"+str(player_hand.get_monnaie()), 1 ,(150,0,0)) #Le (150,0,0) est la couleur du texte en RGB, pareil pour les suivants
 
         #Pour l'Adversaire 1
 
-        texte_adversaire1 = TextPolice.render ("$"+str(adversaire1_hand.get_monnaie()), 1 ,(150,0,0))
+        texte_adversaire1 = TextPolice.render("$"+str(adversaire1_hand.get_monnaie()), 1 ,(150,0,0))
 
         #Pour l'adversaire 2
 
-        texte_adversaire2 = TextPolice.render ("$"+str(adversaire2_hand.get_monnaie()), 1 ,(150,0,0))
+        texte_adversaire2 = TextPolice.render("$"+str(adversaire2_hand.get_monnaie()), 1 ,(150,0,0))
 
 
         # Placement
                 #Actions
         texteadd = TextPolice.render("+", 1 ,(0,0,0))
-        textmise = TextPolice.render(str(mise), 1 ,(0,0,0))
+        textmise = TextPolice.render("$"+str(mise), 1 ,(0,0,0))
         textemonnaie = TextPolice.render(str(bet), 1, (0,0,0))
         texteremove = TextPolice.render("-", 1 ,(0,0,0))
         textecoucher = TextPolice.render("Coucher / Fold", 1 ,(0,0,0))    
@@ -168,7 +170,7 @@ def game(screen):
 
         #Replacement texte
 
-        pygame.draw.rect(screen,(217,217,217),[width/2+200,height-195,140,40])
+        print("Debug, affichage textes")
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-195,140,40]) #Coucher
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-145,140,40]) #Attendre
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-95,140,40]) #Relancer
@@ -186,53 +188,74 @@ def game(screen):
         screen.blit(textesuivre,(617,515))
         screen.blit(texte_all_in,(645,565))
         screen.blit(textemonnaie,(105,440))
-        screen.blit(textmise,(105,200))
+        screen.blit(textmise,(370,240))
         screen.blit(texteremove,(72,440))
         screen.blit(texteadd,(165,440))
+        print("Debug, fin affichage textes")
 
-        if not player_en_liste:
-            action_joueur="Coucher"
-            action_joueur=None
-            tour_en_cour=True
+        if has_select:
+            if action_joueur=="All-In":
+                mise=player_hand.get_monnaie()
+                player_hand.set_monnaie(0)
+                print("Debug, All-In 2")
 
-        if action_joueur=="All-In":
-            mise=player_hand.get_monnaie()
-            player_hand.set_monnaie(0)
-            action_joueur=None
-            tour_en_cour=True
+            if action_joueur=="Bet" or action_joueur=="Suivre":
+                player_hand.set_monnaie(player_hand.get_monnaie()-bet)
+                mise=mise+bet
+                lbet=bet
+                action_joueur=None
+                has_select=False
+                print("Debug, Bet, Suivre 2")
 
-        if action_joueur=="Bet" or action_joueur=="Suivre":
-            player_hand.set_monnaie(player_hand.get_monnaie()-bet)
-            mise=mise+bet
-            bet=mise
-            action_joueur=None
-            tour_en_cour=True
+            if action_joueur=="Coucher":
+                action_joueur=None
+                has_select=False
+                print("Debug, Coucher 2")
 
-        if action_joueur=="Coucher":
-            player_en_liste=False
-            action_joueur=None
-            tour_en_cour=True
-        board_temp_card=[] #Liste permettant à l'IA de ne pas tricher
-        for i in range(0,phase): #Procédé permettant à l'IA de voir les meme cartes que nous 
-            board_temp_card.append(board[i])
-        action_adversaire1=choix_adversaire(adversaire1_hand,phase,nbr_pts(adversaire1_hand.get_cartes(),board),mise)
-        action_adversaire2=choix_adversaire(adversaire2_hand,phase,nbr_pts(adversaire1_hand.get_cartes(),board),mise)
-        print("Adversaire 1:",action_adversaire1)
-        print("Adversaire 2:",action_adversaire2)
+            board_temp_card=[] #Liste permettant à l'IA de ne pas tricher
+            print("Debug, List Temp Card avant")
+            for i in range(0,phase): #Procédé permettant à l'IA de voir les meme cartes que nous
+                board_temp_card.append(board[i])
+            print(board_temp_card)
+            print("Debug, Liste Temp Card après")
+            print(nbr_pts(adversaire1_hand.get_cartes(),board))
+            action_adversaire1=choix_adversaire(adversaire1_hand,phase,nbr_pts(adversaire1_hand.get_cartes(),board),mise)
+            action_adversaire2=choix_adversaire(adversaire2_hand,phase,nbr_pts(adversaire1_hand.get_cartes(),board),mise)
+            print("Adversaire 1:",action_adversaire1)
+            print("Adversaire 2:",action_adversaire2)
+            phase=phase+1
 
-        if phase==5:
-            male_alpha = "player"
-            male_alpha_score = nbr_pts(player_hand.get_cartes(), board)
-            constestants_1 = nbr_pts(adversaire1_hand.get_cartes(), board)
-            if constestants_1 > male_alpha_score:
-                male_alpha = "Adversaire 1"
-                male_alpha_score = constestants_1
-            constestant_2 = nbr_pts(adversaire2_hand.get_cartes(), board)
-            if constestant_2 > male_alpha_score:
-                male_alpha = "Adversaire 2"
-                male_alpha_score = constestant_2
-            return male_alpha
-
+            if phase==4:
+                print("Debug, Phase 4 passé!")
+                male_alpha = player_hand
+                male_alpha_score = nbr_pts(player_hand.get_cartes(), board)
+                constestants_1 = nbr_pts(adversaire1_hand.get_cartes(), board)
+                if constestants_1 > male_alpha_score:
+                    male_alpha = adversaire1_hand
+                    male_alpha_score = constestants_1
+                constestant_2 = nbr_pts(adversaire2_hand.get_cartes(), board)
+                if constestant_2 > male_alpha_score:
+                    male_alpha = adversaire2_hand
+                    male_alpha_score = constestant_2
+                male_alpha.set_monnaie(male_alpha.get_monnaie()+mise)
+                print("Debug, Update Monnaie!")
+                phase=0
+                action_joueur=None
+                mise=50
+                bet=50
+                has_select=False
+                pioche.creer_jeu_52_cartes()
+                pioche.melange()
+                background_image = pygame.transform.scale(pygame.image.load("images/table.png"), (width,height))
+                enemycard = pygame.transform.scale(pygame.image.load("images/cartes/test.png"), (200,300))
+                pl_card=[pioche.pioche_carte(),pioche.pioche_carte()]
+                player_hand.set_cartes(pl_card)
+                enemy1_card=[pioche.pioche_carte(),pioche.pioche_carte()]
+                adversaire1_hand.set_cartes(enemy1_card)
+                enemy2_card=[pioche.pioche_carte(),pioche.pioche_carte()]
+                adversaire2_hand.set_cartes(enemy2_card)
+                board=[pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte()]
+                print("Debug, Update Variable!")
 
 
         pygame.display.flip()
