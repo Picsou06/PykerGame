@@ -76,7 +76,11 @@ def game(screen):
     running = True
     phase=0
     action_joueur=None
-    player_en_liste=True
+
+    player_en_lice=True #Pour verifier si il est toujours eligible a la victoire
+    adeversaire1_en_lice = True
+    adeversaire2_en_lice = True
+
     mise=50
     bet=50
     lbet=50
@@ -210,6 +214,9 @@ def game(screen):
                 print("Debug, Bet, Suivre 2")
 
             if action_joueur=="Coucher":
+                player_en_lice= False
+                adeversaire1_en_lice = False
+                adeversaire2_en_lice = False
                 action_joueur=None
                 has_select=False
                 print("Debug, Coucher 2")
@@ -228,19 +235,39 @@ def game(screen):
 
             if phase==4:
                 print("Debug, Phase 4 passé!")
-                male_alpha = player_hand
+
+                #Determiner qui gagne le tour
+
+                #Pour verif si il est toujours en lice (c con de faire gagner qqn qui s'est couché)
+                if player_en_lice == True:
+                    male_alpha = player_hand
+                else:
+                    male_alpha = 0
+
                 male_alpha_score = nbr_pts(player_hand.get_cartes(), board)
-                constestants_1 = nbr_pts(adversaire1_hand.get_cartes(), board)
+
+                if adeversaire1_en_lice == True:
+                    constestants_1 = nbr_pts(adversaire1_hand.get_cartes(), board)
+                else:
+                    constestants_1 = 0
+
                 if constestants_1 > male_alpha_score:
                     male_alpha = adversaire1_hand
                     male_alpha_score = constestants_1
-                constestant_2 = nbr_pts(adversaire2_hand.get_cartes(), board)
+                if adeversaire2_en_lice == True:    
+                    constestant_2 = nbr_pts(adversaire2_hand.get_cartes(), board)
+                else:
+                    constestant_2 = 0
                 if constestant_2 > male_alpha_score:
                     male_alpha = adversaire2_hand
                     male_alpha_score = constestant_2
                 male_alpha.set_monnaie(male_alpha.get_monnaie()+mise)
+
                 print("Debug, Update Monnaie!")
                 phase=0
+                player_en_lice=True
+                adeversaire1_en_lice = True
+                adeversaire2_en_lice = True
                 action_joueur=None
                 mise=50
                 bet=50
