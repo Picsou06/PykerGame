@@ -167,6 +167,8 @@ def game(screen):
         played_card(player_hand, screen, player_hand.get_cartes()[0], 0)
         played_card(player_hand, screen, player_hand.get_cartes()[1], 1)
         board_card(screen, board, phase)
+        if phase==4:
+            has_select=True
 
         #Replacement texte
 
@@ -223,7 +225,6 @@ def game(screen):
             action_adversaire2=choix_adversaire(adversaire2_hand,phase,nbr_pts(adversaire1_hand.get_cartes(),board),mise)
             print("Adversaire 1:",action_adversaire1)
             print("Adversaire 2:",action_adversaire2)
-            phase=phase+1
 
             if phase==4:
                 print("Debug, Phase 4 passé!")
@@ -256,6 +257,6 @@ def game(screen):
                 adversaire2_hand.set_cartes(enemy2_card)
                 board=[pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte(),pioche.pioche_carte()]
                 print("Debug, Update Variable!")
-
+            phase=phase+1
 
         pygame.display.flip()
