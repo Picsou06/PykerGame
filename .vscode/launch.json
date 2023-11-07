@@ -8,7 +8,7 @@
       "name": "Python: Init",
       "type": "python",
       "request": "launch",
-      "program": "e:/Projet/NSI/PykerGame/init.py",
+      "program": "D:\\PykerGame-main\\init.py",
       "console": "integratedTerminal",
       "justMyCode": true
     },

@@ -5,6 +5,15 @@ import class_JeuDeCartes
 import class_PlayerHand
 
 def paires(l):
+    """
+    entrée : 
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede une paire ou une double paire
+    """
+    
+    assert type(l) == list, "l'element entrée n'est pas une liste"
     pts = 0
     tmp = []
     tmp = tmp + l 
@@ -30,6 +39,16 @@ def paires(l):
     
 
 def brelan(l):
+    """
+    entrée : 
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede un brelan
+    """
+    
+    assert type(l) == list, "l'element entrée n'est pas une liste"
+    
     pts = 0
     i = len(l) -1
     while i > 1:
@@ -41,6 +60,16 @@ def brelan(l):
     return pts   
 
 def suite(l):
+    """
+    entrée : 
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede une suite
+    """
+    
+    assert type(l) == list, "l'element entrée n'est pas une liste"
+    
     pts = 0
     i = len(l) -1
     
@@ -62,6 +91,15 @@ def suite(l):
     return pts
 
 def couleur(L):
+    """
+    entrée : 
+        L liste des cartes classée dans lordre croissant de puissance
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede une couleur
+    """
+    
+    assert type(L) == list, "l'element entrée n'est pas une liste"
     pts = 0
     i = len(L) - 1
 
@@ -75,6 +113,17 @@ def couleur(L):
 
      
 def full(l):
+    """
+    entrée : 
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede un full
+    """
+    
+    assert type(l) == list, "l'element entrée n'est pas une liste"
+    
+    
     pts = 0
     i = len(l) -1
     r = True
@@ -105,6 +154,15 @@ def full(l):
     return pts
 
 def carre(l):
+    """
+    entrée : 
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede un full
+    """
+    
+    assert type(l) == list, "l'element entrée n'est pas une liste"
     pts = 0
     i = len(l) -1
     while i > 2:
@@ -116,6 +174,18 @@ def carre(l):
     return pts
 
 def quinte_flush(l, L):
+    """
+    entrée : 
+        L liste des cartes classée dans lordre croissant de puissance
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede un quinte flush
+    """
+    
+    assert type(l) == type(L) == list, "les elements entrées ne sont pas des listes"
+
+    
     pts = 0
     i = len(l)-1
     tmp = []
@@ -150,6 +220,17 @@ def quinte_flush(l, L):
     return pts
 
 def quinte_flush_royale(l, L):
+    """
+    entrée : 
+        L liste des cartes classée dans lordre croissant de puissance
+        l liste des valeurs des cartes de L dans lordre croissant
+
+    sortie : 
+        un int correspondant au score du joueur s'il possede un quinte flush royale
+    """
+    
+    assert type(l) == type(L) == list, "les elements entrées ne sont pas des listes"
+
     pts = 0
     i = len(l) - 1
     r = False
@@ -180,18 +261,31 @@ def quinte_flush_royale(l, L):
 
 
 def nbr_pts(p,board):
+    
+    """
+    entre : 
+        p liste des cartes du joueur
+        board liste des cartes présente sur le board
+
+    sortie :
+        un int correspondant au score du joueur
+    """
+    assert type(p) == type(board) == list,"les elements entrées ne sont pas des listes" 
+
     L = p + board
     l = []
     
+    # trieur de cartes dans l'ordre criossant
     N = len(L)
     for n in range(1,N):
         cle = L[n]
         j = n-1
         while j>=0 and L[j].est_superieure_a(cle):
-            L[j+1] = L[j] # decalage
+            L[j+1] = L[j]
             j = j-1
         L[j+1] = cle
 
+    # l apprend les valeurs des cartes de L
     for j in L:
         l.append(j.get_valeur())
     
@@ -220,8 +314,7 @@ def nbr_pts(p,board):
                                     if 29 <= paires(l) <= 41 or 46 <= paires(l) <= 68:
                                         return paires(l)
                                     else:
-                                        mx = l.pop()
-                                        return max(l) + mx
+                                        return max(l)
     if len(L) == 4:
         if 1507 <= carre(l) <= 1519 :
             return carre(l)
@@ -232,8 +325,7 @@ def nbr_pts(p,board):
                 if 29 <= paires(l) <= 41 or 46 <= paires(l) <= 68:
                     return paires(l)
                 else:
-                    mx = l.pop()
-                    return max(l) + mx
+                    return max(l)
     if len(L) == 3:
         if 70 <= brelan(l) <= 82:
             return brelan(l)
@@ -241,11 +333,9 @@ def nbr_pts(p,board):
             if 29 <= paires(l) <= 41 or 46 <= paires(l) <= 68:
                 return paires(l)
             else:
-                mx = l.pop()
-                return max(l) + mx
+                return max(l)
     if len(L) == 2:
         if 29 <= paires(l) <= 41 or 46 <= paires(l) <= 68:
             return paires(l)
         else:
-            mx = l.pop()
-            return max(l) + mx
+            return max(l)

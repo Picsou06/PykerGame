@@ -2,6 +2,7 @@ class PlayerHand:
     def __init__(self, monnaie):
         self.cartes = []
         self.monnaie = monnaie
+        self.ingame = True
 
 #Getters
 

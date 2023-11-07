@@ -4,7 +4,10 @@ from time import sleep
 import homescreen
 
 def win(screen):
-    
+    """
+    Fonction qui affiche si on a gagné ou pas
+    Paramètres d'entree : Le screen qui est un pygame.display
+    """
     screen_width, screen_height = screen.get_size()
     background_image = pygame.transform.scale(pygame.image.load("images/win.jpg"), (screen_width,screen_height))
     

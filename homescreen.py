@@ -4,7 +4,12 @@ import game
 import lose
 
 def homescreen(screen):
-    
+
+    """
+    Fonction qui affiche l'interface de jeu
+    Paramètres d'entree : Le screen qui est un pygame.display    
+    """
+
     screen_width, screen_height = screen.get_size()
     background_image = pygame.transform.scale(pygame.image.load("images/background.gif"), (screen_width,screen_height))
     gif_image = pygame.image.load("images/play.gif")
