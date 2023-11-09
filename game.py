@@ -16,6 +16,7 @@ def board_card(screen, cartes, phase):
     Parametre d'entree : Le screen qui est un pygame.display
                          Les cartes qui sont des images
                          Les phase en int qui servent a faire afficher les cartes au fur et a mesure    
+    Parametre Sortie : les Cartes du millieu en fonction de la phase grace a un screen.blit(...)
     """
     if phase<=5:
         x=-10*1.25
@@ -40,6 +41,7 @@ def played_card(player, screen, cartes, n):
     Paramètres d'entree : Le screen qui est un pygame.display
                           Les cartes qui sont des images
                           Le n en int qui permet de selectionner la carte
+    Parametre Sortie : les Cartes du Joueur en fonction de la phase grace a un screen.blit(...)
 
     """
 
@@ -57,6 +59,9 @@ def affichermessage(screen, message):
     Fonction qui permet d'afficher le message au centre
     Parametre d'entre : Le screen qui est un pygame.display
                         Le message (str) à afficher
+    Parametre Sortie : Un texte au milieu (texte qui devient une image) en fonction de la 
+    phase grace a un screen.blit(...)
+
     """
     TextPolice = pygame.font.SysFont("bold",25)
     texteInfo = TextPolice.render(message, 1 ,(150,0,0))
@@ -66,6 +71,9 @@ def affichermessage(screen, message):
 def choix_adversaire(adversaire,phase,score,lbet,player_action):
     """
     Fonction qui permet a l'adversaire de faire un choix ( sacrément utile)
+    Parametre d'entre : le score (int) qui est les montant des points de la main de l'adversaire
+                        lbet (int) qui est le bet minimal pour suivre, le bet du tour quoi
+                        player_action (str) est le choix que le joueur a choisi (Bet, All-In, etc)
     """
     #print("Debug, choix adversaire")
     if player_action=="All-In":
@@ -114,6 +122,11 @@ def choix_adversaire(adversaire,phase,score,lbet,player_action):
         return "Suivre"
 
 def game(screen):
+    """
+    Fonction qui permet a la partie de se derouller
+    Fonction d'entre : Le screen qui est un pygame.display
+    Fonction Sortie : Le screen qui est un pygame.display qui dit si on a gagné ou pas
+    """
     #print("Debug, Game")
     width,height = screen.get_width(),screen.get_height()
     monnaie = randint(200, 1000)*5
@@ -149,15 +162,15 @@ def game(screen):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if width/2+200 <= mouse[0] <= width/2+340 and height-195 <= mouse[1] <= height-195+40:
                     if not has_select:
-                        action_joueur="Bet"
+                        action_joueur="Coucher"
                         has_select=True
-                        #print("Debug, bet")
+                        #print("Debug, coucher")
 
                 elif width/2+200 <= mouse[0] <= width/2+340 and height-145 <= mouse[1] <= height-145+40:
                     if not has_select:
-                        action_joueur="Coucher"
+                        action_joueur="Bet"
                         has_select=True
-                        #print("Debug, Coucher")
+                        #print("Debug, Bet")
 
                 elif width/2+200 <= mouse[0] <= width/2+340 and height-95 <= mouse[1] <= height-95+40:
                     if not has_select:
@@ -171,11 +184,11 @@ def game(screen):
                         has_select=True
                         #print("Debug, All-in")
 
-                elif 147 <= mouse[0] <= 147+46 and 480 <= mouse[1] <= 480+46:
+                elif 70+46+46 <= mouse[0] <= 70+46+46+46 and 480*1.25 <= mouse[1] <= (480+46)*1.25:
                     if bet<player_hand.get_monnaie():
                         bet=bet+5
                         #print("Debug, bet+5")
-                elif 55 <= mouse[0] <= 55+46 and 480 <= mouse[1] <= 480+46:
+                elif 70 <= mouse[0] <= 70+46 and 480*1.25 <= mouse[1] <= (480+46)*1.25:
                     if bet>lbet:
                         bet=bet-5
                         #print("Debug, bet-5")
@@ -220,9 +233,9 @@ def game(screen):
         textesuivre = TextPolice.render("Suivre / Call",1,(0,0,0))
 
 
-
-        played_card(player_hand, screen, player_hand.get_cartes()[0], 0)
-        played_card(player_hand, screen, player_hand.get_cartes()[1], 1)
+        if len(player_hand.get_cartes())==2:
+            played_card(player_hand, screen, player_hand.get_cartes()[0], 0)
+            played_card(player_hand, screen, player_hand.get_cartes()[1], 1)
         board_card(screen, board, phase)
         affichermessage(screen, messageinformation)
 
@@ -233,20 +246,20 @@ def game(screen):
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-145,140,40]) #Attendre
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-95,140,40]) #Relancer
         pygame.draw.rect(screen,(217,217,217),[width/2+200,height-45,140,40]) #Suivre
-        pygame.draw.rect(screen,(240,0,32),[55,480,46,46]) #Bet+
-        pygame.draw.rect(screen,(0,128,255),[147,480,46,46]) #Bet-
-        pygame.draw.rect(screen,(255,255,255),[101,480,46,46]) #Bet level
+        pygame.draw.rect(screen,(240,0,32),[70,480*1.25,46,46]) #Bet+
+        pygame.draw.rect(screen,(0,128,255),[70+46+46,480*1.25,46,46]) #Bet-
+        pygame.draw.rect(screen,(255,255,255),[70+46,480*1.25,46,46]) #Bet level
         screen.blit(texte_adversaire1,(75*1.25,10*1.25))
-        screen.blit(texte_adversaire2,(700*1.25,25*1.25))
-        screen.blit(texte_player,(width/2+200,height-220))
+        screen.blit(texte_adversaire2,(700*1.25,10*1.25))
+        screen.blit(texte_player,(width/2-40,height-220))
         screen.blit(textecoucher,(width/2+200+10,height-195+10))
-        screen.blit(textebet,(width/2+200,height-145))
-        screen.blit(textesuivre,(width/2+200,height-95))
-        screen.blit(texte_all_in,(width/2+200,height-45))
-        screen.blit(textemonnaie,(105*1.25,490*1.25))
+        screen.blit(textebet,(width/2+200+50,height-145+10))
+        screen.blit(textesuivre,(width/2+200+15,height-95+10))
+        screen.blit(texte_all_in,(width/2+200+50,height-45+10))
+        screen.blit(textemonnaie,(105*1.25-10,490*1.25))
         screen.blit(textmise,(370*1.25,240*1.25))
         screen.blit(texteremove,(72*1.25,490*1.25))
-        screen.blit(texteadd,(165*1.25,490*1.25))
+        screen.blit(texteadd,(165*1.25-25,490*1.25))
         #print("Debug, fin affichage textes")
 
 
@@ -260,31 +273,33 @@ def game(screen):
                 male_alpha_score = nbr_pts(player_hand.get_cartes(), board)
             else:
                 male_alpha=None
-                male_alpha_score=0
+                male_alpha_score=-1
 
             #Verif Adversaire 1 win
             if player_en_lice["Adversaire1"] == True: #Pour verif si il est toujours en lice (c con de faire gagner qqn qui s'est couché)
                 constestants_1 = nbr_pts(adversaire1_hand.get_cartes(), board)
+                if constestants_1 > male_alpha_score:
+                    male_alpha = [adversaire1_hand]
+                    male_alpha_score = constestants_1
+                if constestants_1 == male_alpha_score:
+                    male_alpha.append(adversaire1_hand)
+                    male_alpha_score = constestants_1
             else:
                 constestants_1 = 0
-            if constestants_1 > male_alpha_score:
-                male_alpha = [adversaire1_hand]
-                male_alpha_score = constestants_1
-            if constestants_1 == male_alpha_score:
-                male_alpha.append(adversaire1_hand)
-                male_alpha_score = constestants_1
+            
 
             #Verif Adversaire 2 win
             if player_en_lice["Adversaire2"] == True: #Pour verif si il est toujours en lice (c con de faire gagner qqn qui s'est couché)
                 constestants_2 = nbr_pts(adversaire2_hand.get_cartes(), board)
+                if constestants_2 > male_alpha_score:
+                    male_alpha = [adversaire2_hand]
+                    male_alpha_score = constestants_2
+                if constestants_2 == male_alpha_score:
+                    male_alpha.append(adversaire2_hand)
+                    male_alpha_score = constestants_1
             else:
                 constestants_2 = 0
-            if constestants_2 > male_alpha_score:
-                male_alpha = [adversaire2_hand]
-                male_alpha_score = constestants_2
-            if constestants_2 == male_alpha_score:
-                male_alpha.append(adversaire2_hand)
-                male_alpha_score = constestants_1
+            
 
             
             print("mise",mise)
@@ -359,6 +374,8 @@ def game(screen):
 
                 if action_joueur=="Coucher":
                     player_hand.set_ingame(False)
+                    player_hand.set_cartes([])
+                    pl_card=[]
                     action_joueur=None
                     has_select=False
                     player_en_lice["Player"] = False
@@ -416,8 +433,11 @@ def game(screen):
                         botChoise=botChoise+1
 
                     elif action_adversaire1=="Coucher": #Adversaire 1
+                        print("ADVERSAIRE 1 SE COUCHE!!! Verification passée")
                         messageinformation="Adversaire 1 se couche"
                         botChoise=botChoise+1
+                        enemy1_card=[]
+                        adversaire1_hand.set_cartes([])
                         action_adversaire1==None
                         adversaire1_hand.set_ingame(False)
                         player_en_lice["Adversaire1"]=False
@@ -459,10 +479,13 @@ def game(screen):
                         botChoise=botChoise+1
                 
                     if action_adversaire2=="Coucher": #Adversaire 2
+                        print("ADVERSAIRE 2 SE COUCHE!!! Verification passée")
                         messageinformation=messageinformation+" | Adversaire 2 se couche"
+                        adversaire2_hand.set_cartes([])
+                        enemy2_card=[]
                         affichermessage(screen, messageinformation)
                         botChoise=botChoise+1
-                        adversaire2_hand.set_ingame(False)  
+                        adversaire2_hand.set_ingame(False)
                         player_en_lice["Adversaire2"]=False
                 else:
                     botChoise=botChoise+1
